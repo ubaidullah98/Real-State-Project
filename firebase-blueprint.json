@@ -1,0 +1,210 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role-based access information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["admin", "project_manager", "accountant", "sales_agent"] },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Housing society or real estate development project.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "code": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 3000 },
+        "location": { "type": "string", "maxLength": 300 },
+        "totalPlots": { "type": "number" },
+        "plotSizes": { "type": "string", "maxLength": 200 },
+        "launchDate": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "enum": ["planning", "active", "completed"] },
+        "masterPlanPdfName": { "type": "string", "maxLength": 256 },
+        "masterPlanPdfUrl": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["name", "status"]
+    },
+    "Plot": {
+      "title": "Plot",
+      "description": "Individual plot in a housing society project.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "plotNumber": { "type": "string", "maxLength": 64 },
+        "blockNumber": { "type": "string", "maxLength": 64 },
+        "projectId": { "type": "string", "maxLength": 128 },
+        "plotSize": { "type": "string", "maxLength": 64 },
+        "dimensions": { "type": "string", "maxLength": 100 },
+        "pricePerSqUnit": { "type": "number" },
+        "totalPlotPrice": { "type": "number" },
+        "status": { "type": "string", "enum": ["available", "reserved", "sold", "installments_in_progress", "overdue"] },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "bookingDate": { "type": "string", "maxLength": 64 },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "positionX": { "type": "number" },
+        "positionY": { "type": "number" },
+        "positionZ": { "type": "number" },
+        "width": { "type": "number" },
+        "depth": { "type": "number" },
+        "category": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["plotNumber", "blockNumber", "projectId", "status", "totalPlotPrice"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Registered buyer or investor.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "fullName": { "type": "string", "maxLength": 150 },
+        "fatherName": { "type": "string", "maxLength": 150 },
+        "cnic": { "type": "string", "maxLength": 30 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "whatsapp": { "type": "string", "maxLength": 30 },
+        "address": { "type": "string", "maxLength": 300 },
+        "email": { "type": "string", "maxLength": 200 },
+        "registrationDate": { "type": "string", "maxLength": 64 },
+        "assignedProject": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["fullName", "cnic", "phone"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Plot booking and sale agreement.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "bookingNumber": { "type": "string", "maxLength": 64 },
+        "projectId": { "type": "string", "maxLength": 128 },
+        "plotId": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "bookingDate": { "type": "string", "maxLength": 64 },
+        "totalPlotPrice": { "type": "number" },
+        "downPayment": { "type": "number" },
+        "remainingBalance": { "type": "number" },
+        "installmentFrequency": { "type": "string", "enum": ["monthly", "quarterly", "half-yearly", "custom"] },
+        "installmentAmount": { "type": "number" },
+        "numberOfInstallments": { "type": "number" },
+        "firstInstallmentDate": { "type": "string", "maxLength": 64 },
+        "finalDueDate": { "type": "string", "maxLength": 64 },
+        "totalReceived": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "completed", "cancelled"] },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["projectId", "plotId", "customerId", "totalPlotPrice", "downPayment", "remainingBalance"]
+    },
+    "Installment": {
+      "title": "Installment",
+      "description": "Installment payment schedule entry.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "bookingId": { "type": "string", "maxLength": 128 },
+        "projectId": { "type": "string", "maxLength": 128 },
+        "plotId": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "installmentNumber": { "type": "number" },
+        "dueDate": { "type": "string", "maxLength": 64 },
+        "amountDue": { "type": "number" },
+        "amountPaid": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "partially_paid", "paid", "overdue"] },
+        "paidDate": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["bookingId", "projectId", "plotId", "customerId", "installmentNumber", "dueDate", "amountDue", "status"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Financial payment transaction and receipt log.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "receiptNumber": { "type": "string", "maxLength": 64 },
+        "projectId": { "type": "string", "maxLength": 128 },
+        "plotId": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "bookingId": { "type": "string", "maxLength": 128 },
+        "installmentId": { "type": "string", "maxLength": 128 },
+        "amountReceived": { "type": "number" },
+        "paymentDate": { "type": "string", "maxLength": 64 },
+        "paymentMethod": { "type": "string", "enum": ["cash", "bank_transfer", "online"] },
+        "referenceNumber": { "type": "string", "maxLength": 128 },
+        "previousBalance": { "type": "number" },
+        "remainingBalance": { "type": "number" },
+        "receivedBy": { "type": "string", "maxLength": 128 },
+        "remarks": { "type": "string", "maxLength": 1000 },
+        "isReversal": { "type": "string", "maxLength": 10 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["receiptNumber", "projectId", "plotId", "customerId", "amountReceived", "paymentDate", "paymentMethod", "remainingBalance"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Audit record of important system actions.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "action": { "type": "string", "maxLength": 128 },
+        "userEmail": { "type": "string", "maxLength": 256 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "projectId": { "type": "string", "maxLength": 128 },
+        "plotId": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "details": { "type": "string", "maxLength": 1000 },
+        "timestamp": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile documents"
+    },
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "Housing society project definitions"
+    },
+    "/plots/{plotId}": {
+      "schema": { "$ref": "#/entities/Plot" },
+      "description": "Plot units mapped to projects"
+    },
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Customer profiles and contact info"
+    },
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "Plot sales and bookings"
+    },
+    "/installments/{installmentId}": {
+      "schema": { "$ref": "#/entities/Installment" },
+      "description": "Installment schedule breakdown"
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Financial payment transactions and receipts"
+    },
+    "/activityLogs/{logId}": {
+      "schema": { "$ref": "#/entities/ActivityLog" },
+      "description": "System audit and operation logs"
+    }
+  }
+}
